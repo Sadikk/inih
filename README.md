@@ -104,11 +104,6 @@ int main()
 }
 ```
 
-This simple C++ API works fine, but it's not very fully-fledged. I'm not planning to work more on the C++ API at the moment, so if you want a bit more power (for example `GetSections()` and `GetFields()` functions), see these forks:
-
-  * https://github.com/Blandinium/inih
-  * https://github.com/OSSystems/inih
-
 
 ## Differences from ConfigParser ##
 
