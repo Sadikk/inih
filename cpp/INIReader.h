@@ -10,6 +10,7 @@
 
 #include <map>
 #include <string>
+#include <set>
 
 // Read an INI file into easy-to-access name/value pairs. (Note that I've gone
 // for simplicity here rather than speed, but it should be pretty decent.)
@@ -19,6 +20,7 @@ public:
     // Construct INIReader and parse given filename. See ini.h for more info
     // about the parsing.
     explicit INIReader(const std::string& filename);
+    ~INIReader();
 
     // Return the result of ini_parse(), i.e., 0 on success, line number of
     // first error on parse error, or -1 on file open error.
@@ -51,14 +53,18 @@ public:
     bool HasValue(const std::string& section, const std::string& name) const;
 
     // Get the list of sections
-    std::set<std::string> INIReader::GetSections() const;
+    std::set<std::string> GetSections() const;
 
     // Get the list of fields from a section
-    std::set<std::string> INIReader::GetFields(std::string section) const
+    std::set<std::string> GetFields(std::string section) const;
 
 private:
     int _error;
     std::map<std::string, std::string> _values;
+    // Because we want to retain the original casing in _fields, but
+    // want lookups to be case-insensitive, we need both _fields and _values
+    std::set<std::string> _sections;
+    std::map<std::string, std::set<std::string>*> _fields;
     static std::string MakeKey(const std::string& section, const std::string& name);
     static int ValueHandler(void* user, const char* section, const char* name,
                             const char* value);
