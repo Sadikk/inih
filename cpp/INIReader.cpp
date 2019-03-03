@@ -74,6 +74,21 @@ bool INIReader::HasValue(const std::string& section, const std::string& name) co
     return _values.count(key);
 }
 
+std::set<std::string> INIReader::GetSections() const
+{
+    return _sections;
+}
+
+std::set<std::string> INIReader::GetFields(std::string section) const
+{
+    string sectionKey = section;
+    std::transform(sectionKey.begin(), sectionKey.end(), sectionKey.begin(), ::tolower);
+    std::map<std::string, std::set<std::string>*>::const_iterator fieldSetIt = _fields.find(sectionKey);
+    if(fieldSetIt==_fields.end())
+        return std::set<std::string>();
+    return *(fieldSetIt->second);
+}
+
 string INIReader::MakeKey(const string& section, const string& name)
 {
     string key = section + "=" + name;
