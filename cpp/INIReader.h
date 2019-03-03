@@ -50,6 +50,12 @@ public:
     // Return true if a value exists with the given section and field names.
     bool HasValue(const std::string& section, const std::string& name) const;
 
+    // Get the list of sections
+    std::set<std::string> INIReader::GetSections() const;
+
+    // Get the list of fields from a section
+    std::set<std::string> INIReader::GetFields(std::string section) const
+
 private:
     int _error;
     std::map<std::string, std::string> _values;
